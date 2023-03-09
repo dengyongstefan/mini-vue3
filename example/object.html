@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 当商品的数量变化时，该商品的总价需要变化
+      let quantity = 10
+      // 定义一个商品
+      let product = {
+        price: 2,
+        quantity
+      }
+      let total = 0
+      // 计算总价
+      function effect() {
+        console.log('product.quantity :>> ', product.quantity);
+        total = product.price * product.quantity
+        console.log('总价为 :>> ', total)
+      }
+      effect()
+      Object.defineProperty(product, 'quantity', {
+        set(val) {
+          // 在重新设置数量的时候进行劫持，重新计算总价
+          console.log('进入set :>> ')
+          quantity = val
+          effect()
+        },
+        get() {
+          console.log('进入get :>> ')
+          return quantity
+        }
+      })
+      product.quantity = 20
+    </script>
+  </body>
+</html>
