@@ -19,7 +19,7 @@ export default [
 				file: './packages/vue/dist/vue.js',
 				// 生成的包格式：一个自动执行的功能，适合作为<script>标签
 				format: 'iife',
-				// 变量名
+				// 变量名 浏览器引入后使用的全局变量名称
 				name: 'Vue'
 			}
 		],
