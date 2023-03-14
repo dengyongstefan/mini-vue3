@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+        let obj1 = {
+            firstName: '张',
+            lastName: '三',
+            get getFullName(){
+                return this.firstName + this.lastName
+            }
+        }
+        let obj2 = {
+            firstName: '李',
+            lastName: '四',
+            get getFullName(){
+                return this.firstName + this.lastName
+            }
+        }
+        // 可以不用加（）就使用function
+        console.log(obj1.getFullName);  //张三
+        console.log(Reflect.get(obj1,'getFullName' ,obj2)); //李四
+
+        const proxy = new Proxy(obj1,{
+            get(target,key,receiver){
+                console.log('触发get');
+                return Reflect.get(target,key,receiver)
+                // return target[key]
+            },
+        })
+        console.log(proxy.getFullName); // 张三
+    </script>
+  </body>
+</html>
