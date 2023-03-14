@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 当商品的数量变化时，该商品的总价需要变化
+      let quantity = 10
+      // 定义一个商品
+      let product = {
+        price: 2,
+        quantity
+      }
+      // 创建proxy的代理对象
+      // 只有代理对象才会触发get,set
+      // receiver -- 代理对象proxyProduct
+      // target -- 被代理product
+      let proxyProduct = new Proxy(product,{
+        set(target,key,newVal,receiver){
+            console.log('set');
+            target[key] = newVal
+            effect()
+            return true
+        },
+        get(target,key,receiver){
+            console.log('get');
+            return target[key]
+        }
+      })
+      let total = 0
+      // 计算总价
+      function effect() {
+        console.log('proxyProduct.quantity :>> ', proxyProduct.quantity);
+        total = proxyProduct.price * proxyProduct.quantity
+        console.log('总价为 :>> ', total)
+      }
+      effect()
+      proxyProduct.quantity = 20
+    </script>
+  </body>
+</html>
