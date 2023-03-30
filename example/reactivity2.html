@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reactivity测试用例</title>
+    <script src="../packages/vue/dist/vue.js" ></script>
+</head>
+<body>
+    <div id="app"></div>
+
+</body>
+<script>
+    const { reactive } = Vue
+    const reactiveObj = reactive({
+        name: '张三'
+    })
+    console.log('reactiveObj',reactiveObj.name);
+      // 调用 effect 方法
+    // effect(() => {
+    //     document.querySelector('#app').innerText = reactiveObj.name
+    // })
+    setTimeout(() => {
+        reactiveObj.name = '李四'
+    }, 2000);
+</script>
+</html>
