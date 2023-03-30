@@ -1,4 +1,4 @@
-import { track } from "./effect";
+import { track,trigger } from "./effect";
 
 /**
  * getter 回调方法
@@ -38,7 +38,7 @@ function createSetter(){
     ){
         const res = Reflect.set(target,key,value,receiver)
         console.log('set');
-        // trigger()
+        trigger(target,key)
         return res
     }
 }

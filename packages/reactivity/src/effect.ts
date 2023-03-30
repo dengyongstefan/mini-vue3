@@ -82,3 +82,47 @@ export function trackEffects(dep:Dep){
     // dep是set合集，不用考虑重复问题
     dep.add(activeEffect!)
 }
+/**
+ * @description 触发一个被代理对象的摸个key值的依赖
+ * @author dengyong
+ * @date 30/03/2023
+ * @export
+ * @param target WeakMap 的 key
+ * @param key 代理对象的 key，当依赖被触发时，需要根据该 key 获取
+ */
+export function trigger(target:object,key:unknown){
+    // 获取对应被代理对象的depsMap，也就是获取它每个key对应的dep的map对象 key--dep
+    let depsMap = targetMap.get(target)
+    // 如果 map 不存在，则直接 return
+    if(!depsMap) return
+    // 依据指定的 key，获取 dep 实例
+    let dep: Dep | undefined = depsMap.get(key)
+     // dep 不存在则直接 return
+    if(!dep) return
+    triggerEffects(dep)
+}
+
+/**
+ * @description 触发dep中的依赖
+ * @author dengyong
+ * @date 30/03/2023
+ * @param dep
+ */
+export function triggerEffects(dep:Dep){
+    // 把 dep 构建为一个数组
+    const effects = isArray(dep)?dep:[...dep]
+    // 逐个依赖出发
+    for (const effect of effects) {
+        triggerEffect(effect)
+    }
+}
+
+/**
+ * @description 触发单个依赖
+ * @author dengyong
+ * @date 30/03/2023
+ * @param effect
+ */
+export function triggerEffect(effect:ReactiveEffect){
+    effect.run()
+}
