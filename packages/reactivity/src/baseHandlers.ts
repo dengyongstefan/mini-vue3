@@ -1,3 +1,5 @@
+import { track } from "./effect";
+
 /**
  * getter 回调方法
  */
@@ -12,7 +14,8 @@ function createGetter(){
     return function get(target:object,key:string | symbol, receiver:object){
         const res = Reflect.get(target,key,receiver)
         console.log('get');
-        // track()
+        // 收集该对象的某个key值对象
+        track(target,key)
         return  res
     }
 }

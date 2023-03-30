@@ -1,1 +1,1 @@
-export { reactive } from '../../reactivity/src'
+export { reactive, effect} from '@vue/reactivity'
