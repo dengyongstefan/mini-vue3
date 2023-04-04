@@ -1,3 +1,4 @@
+import { isObject } from "@vue/shared"
 import { mutableHandlers } from "./baseHandlers"
 
 /**
@@ -42,4 +43,18 @@ function createReactiveObject(
     // 缓存target
     proxyMap.set(target,proxy)
     return proxy
+}
+
+/**
+ * @description 将制定的数据变为响应式数据
+ * @author dengyong
+ * @date 04/04/2023
+ * @export
+ * @template T
+ * @param value 需要被转化的对象
+ * @returns {*}
+ */
+export function toReactive<T extends unknown>(value:T):T{
+    return isObject(value)? reactive(value as object) : value
+
 }

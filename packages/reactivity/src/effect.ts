@@ -68,7 +68,7 @@ export function track(target:object,key:unknown){
     }
     // 收集依赖，在dep中添加activeEffect实例
     trackEffects(dep)
-    console.log('targetMap',targetMap);
+    // console.log('targetMap',targetMap);
 }
 /**
  * @description 跟踪某个key值对应的依赖 在其对应的dep实例中添加当前的effect对象
