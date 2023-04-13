@@ -1,5 +1,6 @@
 import { isArray } from "@vue/shared";
 import { Dep,createDep } from "./dep";
+import { ComputedRefImpl } from "./computed";
 
 
 /**
@@ -15,6 +16,7 @@ export let activeEffect :ReactiveEffect | undefined
  * @constructor fn--依赖收集和触发时需要执行的方法
  */
 export class ReactiveEffect<T=any> {
+    public computed?:ComputedRefImpl<T>
     constructor(
         public fn: ()=> T
     ){}

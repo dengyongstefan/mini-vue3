@@ -13,7 +13,7 @@ const get = createGetter()
 function createGetter(){
     return function get(target:object,key:string | symbol, receiver:object){
         const res = Reflect.get(target,key,receiver)
-        console.log('get');
+        // console.log('get');
         // 收集该对象的某个key值对象
         track(target,key)
         return  res
@@ -37,7 +37,7 @@ function createSetter(){
         receiver:object
     ){
         const res = Reflect.set(target,key,value,receiver)
-        console.log('set');
+        // console.log('set');
         trigger(target,key)
         return res
     }

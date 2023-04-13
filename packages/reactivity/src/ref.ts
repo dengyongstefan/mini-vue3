@@ -61,7 +61,7 @@ class RefImpl<T>{
 	 */
     get value(){
         trackRefValue(this)
-        console.log('this',this);
+        // console.log('this',this);
         return this._value
     }
     /**
@@ -84,7 +84,7 @@ class RefImpl<T>{
  * @date 05/04/2023
  * @param ref
  */
-function trackRefValue(ref){
+export function trackRefValue(ref){
     if(activeEffect){
         trackEffects(ref.dep || (ref.dep = createDep()))
     }
@@ -96,7 +96,7 @@ function trackRefValue(ref){
  * @date 05/04/2023
  * @param ref
  */
-function triggerRefValue(ref){
+export function triggerRefValue(ref){
     if(ref.dep){
         triggerEffects(ref.dep)
     }
