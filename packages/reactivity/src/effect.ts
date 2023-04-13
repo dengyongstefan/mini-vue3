@@ -14,11 +14,13 @@ export let activeEffect :ReactiveEffect | undefined
  * @date 30/03/2023
  * @class ReactiveEffect
  * @constructor fn--依赖收集和触发时需要执行的方法
+ * @constructor scheduler--调度器，优先级比run函数高
  */
 export class ReactiveEffect<T=any> {
     public computed?:ComputedRefImpl<T>
     constructor(
-        public fn: ()=> T
+        public fn: ()=> T,
+        public scheduler:EffectScheduler | null = null
     ){}
     run(){
         // 指定现在正在活跃的activeEffect实例，用于依赖收集
@@ -26,6 +28,8 @@ export class ReactiveEffect<T=any> {
         return this.fn()
     }
 }
+
+export type EffectScheduler = (...args: any[]) => any
 
 export function effect<T=any>(fn:()=>T){
      // 生成 ReactiveEffect 实例
@@ -126,5 +130,9 @@ export function triggerEffects(dep:Dep){
  * @param effect
  */
 export function triggerEffect(effect:ReactiveEffect){
-    effect.run()
+    if(effect.scheduler){
+        effect.scheduler()
+    }else{
+        effect.run()
+    }
 }

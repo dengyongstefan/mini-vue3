@@ -1,6 +1,6 @@
 import { isFunction } from "@vue/shared"
 import { ReactiveEffect, } from "./effect"
-import { trackRefValue } from "./ref"
+import { trackRefValue, triggerRefValue } from "./ref"
 import { Dep } from "./dep"
 
 /**
@@ -42,7 +42,14 @@ export class ComputedRefImpl<T>{
     public _dirty = true
 
     constructor(getter){
-        this.effect = new ReactiveEffect(getter)
+        this.effect = new ReactiveEffect(getter,()=>{
+            // 判断当前脏的状态，如果为 false，表示需要《触发依赖》
+            if(!this._dirty){
+                // 将脏置为 true，computed中的被收集的依赖有更新，同时触发当前依赖
+                this._dirty = true
+                triggerRefValue(this)
+            }
+        })
         this.effect.computed=this
     }
 
@@ -50,9 +57,10 @@ export class ComputedRefImpl<T>{
         // 收集依赖
         trackRefValue(this)
         // 判断当前脏的状态，如果为 true ，则表示需要重新执行 run，获取最新数据
-        // 如果为false代表数据没有脏，也就是compted中的被收集的依赖没有更新，不需要在获取一遍新的数据，实现缓存
+        // 如果为false代表数据没有脏，也就是computed中的被收集的依赖没有更新，不需要在获取一遍新的数据，实现缓存
         if(this._dirty){
-            // this._dirty = false
+            // 将_dirty设置为false，代表数据已经更新
+            this._dirty = false
             // 执行run函数，获取新的value值
             this._value = this.effect.run()
         }
