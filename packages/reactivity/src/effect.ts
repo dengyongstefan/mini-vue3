@@ -17,6 +17,9 @@ export let activeEffect :ReactiveEffect | undefined
  * @constructor scheduler--调度器，优先级比run函数高
  */
 export class ReactiveEffect<T=any> {
+    /**
+   * 存在该属性，则表示当前的 effect 为计算属性的 effect
+   */
     public computed?:ComputedRefImpl<T>
     constructor(
         public fn: ()=> T,
@@ -27,6 +30,7 @@ export class ReactiveEffect<T=any> {
         activeEffect = this
         return this.fn()
     }
+    stop() {}
 }
 
 export type EffectScheduler = (...args: any[]) => any

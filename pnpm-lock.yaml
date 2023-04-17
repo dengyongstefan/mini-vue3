@@ -4,9 +4,13 @@ specifiers:
   '@rollup/plugin-commonjs': 22.0.1
   '@rollup/plugin-node-resolve': 13.3.0
   '@rollup/plugin-typescript': 8.3.4
+  lodash: ^4.17.21
   rollup-plugin-sourcemaps: 0.6.3
   tslib: 2.4.0
   typescript: 4.7.4
+
+dependencies:
+  lodash: 4.17.21
 
 devDependencies:
   '@rollup/plugin-commonjs': 22.0.1
@@ -200,6 +204,10 @@ packages:
     dependencies:
       '@types/estree': 1.0.0
     dev: true
+
+  /lodash/4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+    dev: false
 
   /magic-string/0.25.9:
     resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}

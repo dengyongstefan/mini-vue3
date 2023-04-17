@@ -40,6 +40,9 @@ function createReactiveObject(
     }
     // 代理target
     const proxy = new Proxy(target,baseHandlers)
+    // 为reactive设置标志
+    proxy[ReactiveFlags.IS_REACTIVE] = true
+
     // 缓存target
     proxyMap.set(target,proxy)
     return proxy
@@ -57,4 +60,20 @@ function createReactiveObject(
 export function toReactive<T extends unknown>(value:T):T{
     return isObject(value)? reactive(value as object) : value
 
+}
+
+/**
+ * @description 判断是否为 Reactive数据
+ * @author dengyong
+ * @date 17/04/2023
+ * @export
+ * @param value
+ * @returns {*}
+ */
+export function isReactive(value):boolean{
+    return !!(value && value[ReactiveFlags.IS_REACTIVE])
+}
+
+export const enum ReactiveFlags {
+	IS_REACTIVE = '__v_isReactive'
 }
