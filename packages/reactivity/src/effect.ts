@@ -1,4 +1,4 @@
-import { isArray } from "@vue/shared";
+import { extend, isArray } from "@vue/shared";
 import { Dep,createDep } from "./dep";
 import { ComputedRefImpl } from "./computed";
 
@@ -31,11 +31,32 @@ export class ReactiveEffect<T=any> {
 
 export type EffectScheduler = (...args: any[]) => any
 
-export function effect<T=any>(fn:()=>T){
+export interface ReactiveEffectOptions {
+    lazy?: boolean
+    scheduler?: EffectScheduler
+  }
+/**
+ * @description effect方法
+ * @author dengyong
+ * @date 17/04/2023
+ * @export
+ * @template T
+ * @param fn
+ * @param [options]
+ */
+export function effect<T=any>(fn:()=>T,options?: ReactiveEffectOptions){
      // 生成 ReactiveEffect 实例
     const _effect = new ReactiveEffect(fn)
+    // 存在 options，则合并配置对象
+  if (options) {
+    extend(_effect, options)
+  }
+
+  if (!options || !options.lazy) {
      // 执行run方法，对fun中的方法开始收集依赖
-    _effect.run()
+     _effect.run()
+  }
+
 }
 
 type keyToDepMap = Map<any,Dep>
