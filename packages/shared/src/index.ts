@@ -36,3 +36,9 @@ export const EMPTY_OBJ: { readonly [key: string]: any } = {}
  * 判断是否为String类型
  */
 export const isString = (val:unknown):val is string => typeof val === 'string'
+
+const onRE = /^on[^a-z]/
+/**
+ * 是否 on 开头
+ */
+export const isOn = (key: string) => onRE.test(key)

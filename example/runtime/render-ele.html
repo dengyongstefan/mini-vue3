@@ -13,7 +13,8 @@
   </body>
 
   <script>
-    const { h } = Vue
+    const { h, render } = Vue
+
     const vnode = h(
       'div',
       {
@@ -23,5 +24,7 @@
     )
 
     console.log(vnode)
+
+    render(vnode, document.querySelector('#app'))
   </script>
 </html>
