@@ -15,5 +15,12 @@ export const nodeOps = {
     // 为指定的 element 设置 textContent
     setElementText:(el, text) => {
         el.textContent = text
+    },
+    // 删除指定的节点
+    remove:(el) => {
+        const parent = el.parentNode
+        if (parent) { 
+            parent.removeChild(el) 
+        }
     }
 }

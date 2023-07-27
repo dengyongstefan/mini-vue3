@@ -125,3 +125,15 @@ function normalizeChildren(vnode:VNode,children:unknown){
 export function isVNode(val:any):val is VNode{
     return val? (val.__v_isVNode === true) :false
 }
+
+/**
+ * @description 判断传入的两个节点是否一致
+ * @date 27/07/2023
+ * @export
+ * @param {VNode} n1
+ * @param {VNode} n2
+ * @returns {*}  {boolean}
+ */
+export function isSameVNodeType(n1:VNode,n2:VNode):boolean{
+    return n1.type === n2.type && n1.key === n2.key
+}

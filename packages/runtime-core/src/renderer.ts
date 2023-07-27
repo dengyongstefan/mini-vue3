@@ -1,5 +1,5 @@
 import { ShapeFlags } from 'packages/shared/src/shapeFlags';
-import { Comment, Fragment, Text } from './vnode'
+import { Comment, Fragment, Text, isSameVNodeType } from './vnode'
 import { EMPTY_OBJ } from '@vue/shared';
 
 /**
@@ -25,6 +25,7 @@ function baseCreateRenderer(options:RenderOptions):any{
         setElementText: hostSetElementText,
         insert: hostInsert,
         createElement: hostCreateElement,
+        remove:hostRemove
     } = options
 
     // element 处理元素
@@ -159,6 +160,12 @@ function baseCreateRenderer(options:RenderOptions):any{
     const patch = (oldValue, newValue, container, anchor = null)=>{
         // 如果新旧节点相同直接不进行任何操作
         if(oldValue === newValue) return
+        // 旧节点存在同时两个节点的类型不一致 直接删除旧的节点 不再进行diff操作
+        if(oldValue && !isSameVNodeType(oldValue,newValue)){
+            unmount(oldValue)
+            // 旧节点卸载后将oldValue赋值为null
+            oldValue = null
+        }
         const { type, shapeFlag } = newValue
         // 根据不同的type类型来处理
         switch(type) {
@@ -178,6 +185,14 @@ function baseCreateRenderer(options:RenderOptions):any{
                 }
         }
     }
+    /**
+     * @description 取消节点挂载，直接删除节点
+     * @date 27/07/2023
+     * @param {*} vnode
+     */
+    const unmount = vnode => {
+        hostRemove(vnode.el!)
+    }
 
     /**
      * 最终要暴露出去的render函数
@@ -186,7 +201,9 @@ function baseCreateRenderer(options:RenderOptions):any{
      */
     const render = (vnode, container)=>{
         if(vnode == null){
-            // todo 卸载节点
+            if(container._vnode){
+                unmount(container._vnode)
+            }
         }else{
             // 打补丁 -- 挂载或者更新
             patch(container._vnode || null, vnode, container)
@@ -211,4 +228,6 @@ export interface RenderOptions{
     insert(el, parent, anchor?):void
     // 创建指定的 element
     createElement(type:string):Element
+    // 卸载dom
+    remove(el): void
 }
