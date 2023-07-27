@@ -1,4 +1,4 @@
-import { ReactiveEffect } from "./effect";
+import { ReactiveEffect } from './effect'
 
 export type Dep = Set<ReactiveEffect>
 /**
@@ -8,6 +8,6 @@ export type Dep = Set<ReactiveEffect>
  * @param [effects] ReactiveEffect实例数组
  * @returns ReactiveEffect实例数组
  */
-export function createDep (effects?:ReactiveEffect[]): Dep {
-    return new Set<ReactiveEffect>(effects) as Dep
+export function createDep(effects?: ReactiveEffect[]): Dep {
+  return new Set<ReactiveEffect>(effects) as Dep
 }

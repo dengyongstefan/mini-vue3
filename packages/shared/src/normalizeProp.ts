@@ -7,33 +7,33 @@ import { isArray, isObject, isString } from '.'
  * @param value 需要处理的class值
  * @returns {*}
  */
-export function normalizeClass(value:unknown):string{
-    let res = ''
-    // 判断是否为 string，如果是 string 就不需要专门处理
-    if(isString(value)){
-        res = value
+export function normalizeClass(value: unknown): string {
+  let res = ''
+  // 判断是否为 string，如果是 string 就不需要专门处理
+  if (isString(value)) {
+    res = value
+  }
+  // 如果是对象则需要一个一个递归处理、
+  // 官方案例：https://cn.vuejs.org/guide/essentials/class-and-style.html#binding-to-arrays
+  else if (isArray(value)) {
+    for (let i = 0; i < value.length; i++) {
+      const normalized = normalizeClass(value[i])
+      if (normalized) {
+        res += normalized + ' '
+      }
     }
-    // 如果是对象则需要一个一个递归处理、
-    // 官方案例：https://cn.vuejs.org/guide/essentials/class-and-style.html#binding-to-arrays
-    else if(isArray(value)){
-        for (let i = 0; i < value.length; i++) {
-           const normalized = normalizeClass(value[i])
-           if(normalized){
-             res += normalized + ' '
-           }
-        }
+  }
+  // 额外的对象增强。
+  // 官方案例：https://cn.vuejs.org/guide/essentials/class-and-style.html#binding-html-classes
+  else if (isObject(value)) {
+    // for in 获取到所有的 key，这里的 key（name） 即为 类名。value 为 boolean 值
+    for (const name in value as object) {
+      // 把 value 当做 boolean 来看，拼接 name
+      if ((value as object)[name]) {
+        res += name + ' '
+      }
     }
-	// 额外的对象增强。
-    // 官方案例：https://cn.vuejs.org/guide/essentials/class-and-style.html#binding-html-classes
-    else if(isObject(value)){
-		// for in 获取到所有的 key，这里的 key（name） 即为 类名。value 为 boolean 值
-        for (const name in value as object) {
-            // 把 value 当做 boolean 来看，拼接 name
-            if((value as object)[name]){
-                res += name + ' '
-            }
-        }
-    }
-    // 去左右空格
-    return res.trim()
+  }
+  // 去左右空格
+  return res.trim()
 }

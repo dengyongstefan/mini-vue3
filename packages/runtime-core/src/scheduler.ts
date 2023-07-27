@@ -23,7 +23,7 @@ const pendingPreFlushCbs: Function[] = []
  * @param cb
  */
 export function queuePreFlushCb(cb: Function) {
-	queueCb(cb, pendingPreFlushCbs)
+  queueCb(cb, pendingPreFlushCbs)
 }
 
 /**
@@ -34,9 +34,9 @@ export function queuePreFlushCb(cb: Function) {
  * @param pendingQueue
  */
 function queueCb(cb: Function, pendingQueue: Function[]) {
-	// 将所有的回调函数，放入队列中
-	pendingQueue.push(cb)
-	queueFlush()
+  // 将所有的回调函数，放入队列中
+  pendingQueue.push(cb)
+  queueFlush()
 }
 
 /**
@@ -45,10 +45,10 @@ function queueCb(cb: Function, pendingQueue: Function[]) {
  * @date 17/04/2023
  */
 function queueFlush() {
-	if (!isFlushPending) {
-		isFlushPending = true
-		currentFlushPromise = resolvedPromise.then(flushJobs)
-	}
+  if (!isFlushPending) {
+    isFlushPending = true
+    currentFlushPromise = resolvedPromise.then(flushJobs)
+  }
 }
 
 /**
@@ -57,8 +57,8 @@ function queueFlush() {
  * @date 17/04/2023
  */
 function flushJobs() {
-	isFlushPending = false
-	flushPreFlushCbs()
+  isFlushPending = false
+  flushPreFlushCbs()
 }
 
 /**
@@ -68,14 +68,14 @@ function flushJobs() {
  * @export
  */
 export function flushPreFlushCbs() {
-	if (pendingPreFlushCbs.length) {
-		// 去重
-		let activePreFlushCbs = [...new Set(pendingPreFlushCbs)]
-		// 清空就数据
-		pendingPreFlushCbs.length = 0
-		// 循环处理
-		for (let i = 0; i < activePreFlushCbs.length; i++) {
-			activePreFlushCbs[i]()
-		}
-	}
+  if (pendingPreFlushCbs.length) {
+    // 去重
+    let activePreFlushCbs = [...new Set(pendingPreFlushCbs)]
+    // 清空就数据
+    pendingPreFlushCbs.length = 0
+    // 循环处理
+    for (let i = 0; i < activePreFlushCbs.length; i++) {
+      activePreFlushCbs[i]()
+    }
+  }
 }

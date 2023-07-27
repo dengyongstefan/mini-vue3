@@ -1,14 +1,14 @@
-import { patchProp } from './patchProp';
-import { createRenderer } from "@vue/runtime-core"
-import { extend } from "@vue/shared"
-import { nodeOps } from './nodeOps';
+import { patchProp } from './patchProp'
+import { createRenderer } from '@vue/runtime-core'
+import { extend } from '@vue/shared'
+import { nodeOps } from './nodeOps'
 
 /**
  * 导出浏览器宿主下的render函数
  * @param args
  */
 export const render = (...args) => {
-    ensureRenderer().render(...args)
+  ensureRenderer().render(...args)
 }
 
 /**
@@ -21,6 +21,6 @@ let renderer
  * 创建render的函数
  * @returns
  */
-function ensureRenderer(){
-    return renderer || (renderer = createRenderer(rendererOptions) )
+function ensureRenderer() {
+  return renderer || (renderer = createRenderer(rendererOptions))
 }
