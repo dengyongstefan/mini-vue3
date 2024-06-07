@@ -2,7 +2,7 @@ import { EMPTY_OBJ, hasChanged, isObject } from '@vue/shared'
 import { ReactiveEffect } from 'packages/reactivity/src/effect'
 import { isReactive } from 'packages/reactivity/src/reactive'
 import { queuePreFlushCb } from './scheduler'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash-es'
 
 /**
  * @description watch 方法
@@ -58,7 +58,7 @@ function doWatch(
       console.log('oldValue', oldValue)
       if (deep || hasChanged(newValue, oldValue)) {
         cb(newValue, oldValue)
-        oldValue = _.cloneDeep(newValue)
+        oldValue = cloneDeep(newValue)
       }
     }
   }
