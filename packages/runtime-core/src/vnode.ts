@@ -102,6 +102,8 @@ function normalizeChildren(vnode: VNode, children: unknown) {
     type = ShapeFlags.TEXT_CHILDREN
   }
   vnode.children = children
+  /** 按位或赋值运算 可以同时标记出本身节点的信息和子节点的信息 */
+  /** 通过按位或赋值，可以累积不同的形状标记，表示VNode可能同时具有多种特征（如同时有文本子元素和数组子元素） */
   vnode.shapeFlag |= type
 }
 
